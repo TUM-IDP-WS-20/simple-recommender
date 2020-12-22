@@ -3,7 +3,7 @@ import re
 import string
 import pandas as pd
 import numpy as np
-import pickle
+import pickle5 as pickle
 import gensim
 
 pd.set_option('display.max_colwidth', None)
