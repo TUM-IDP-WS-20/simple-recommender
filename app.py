@@ -29,7 +29,7 @@ def index():
         for i in range(len(recs)):
             flash('File: ' + recs[i][30] + ', Similarity:' + "{:.16f}".format(recs[i][31]) + ', Topic Probabilities: '+','.join(["{:.16f}".format(i) for i in recs[i][:30]]))
     else:
-        flash('After putting input text and clicking "Sugget" button, you will see recommendations here.')
+        flash('After putting input text and clicking "Suggest" button, you will see recommendations here.')
 
     return render_template('index.html', form=form)
 
