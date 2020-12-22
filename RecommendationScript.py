@@ -148,6 +148,7 @@ def make_suggestions(TAR_6):
         mytext_4 = count_vectorizer.transform(mytext_3)
 
         # LDA Transform
+        lda_model.n_jobs = None
         topic_probability_scores = lda_model.transform(mytext_4)
         topic = df_topic_keywords.iloc[np.argmax(topic_probability_scores), :].values.tolist()
         return topic, topic_probability_scores
