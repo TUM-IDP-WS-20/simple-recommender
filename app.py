@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, render_template, flash
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 
 # App config.
+import RecommendationScript
+
 DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -21,9 +23,10 @@ def index():
         print(name)
 
     if form.validate():
+        recs = RecommendationScript.make_suggestions(name)
         # Save the comment here.
-        flash('Received input text: ' + name)
-        flash('Recommendations: ' + name)
+        for i in recs:
+            flash(i)
     else:
         flash('All the form fields are required. ')
 
