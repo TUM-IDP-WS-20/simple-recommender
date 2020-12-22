@@ -13,6 +13,7 @@ app.config['SECRET_KEY'] = '7d441f27d441f27567d441f2b6176a'
 class ReusableForm(Form):
     name = TextAreaField('Input text:', validators=[validators.required()])
 
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     form = ReusableForm(request.form)
@@ -25,10 +26,10 @@ def index():
     if form.validate():
         recs = RecommendationScript.make_suggestions(name)
         # Save the comment here.
-        for i in recs:
-            flash(i)
+        for i in range(len(recs)):
+            flash('File: ' + recs[i][30] + ', Similarity:' + "{:.16f}".format(recs[i][31]) + ', Topic Probabilities: '+','.join(["{:.16f}".format(i) for i in recs[i][:30]]))
     else:
-        flash('All the form fields are required. ')
+        flash('After putting input text and clicking "Sugget" button, you will see recommendations here.')
 
     return render_template('index.html', form=form)
 

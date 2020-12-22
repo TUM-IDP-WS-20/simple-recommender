@@ -2,7 +2,8 @@
 <p>
     The model used here is trained with following properties: <br/>
 <ul>
-    <li>All dataset which has 15751 documents used</li>
+    <li>All dataset which has 15751 documents used. It also includes accounting irrelevant data. This is the first test, later we are going to exclude them.</li>
+    <li>Only the first 3 pages of the papers are used in the training</li>
     <li>Pipeline: Cleaned -> Stopwords Removed -> Lemmatized -> LDA Model -> Similarity Measurement (Cosine) -> Recommendation</li>
     <li>In total 13191 stopwords are removed. 12854(<a target="_blank" href="https://drive.google.com/file/d/1XQ9cxY7ZsBKsfavt9PiVBEE5es9_bA7c/view?usp=sharing">accounting</a>) + 337(<a target="_blank" href="https://drive.google.com/file/d/1jwhQ8TrcAoSJ8QWhjJ_prgrvxe6LWK_Z/view?usp=sharing">standard english</a>) </li>
     <li>All words except NOUN', 'ADJ', 'VERB', 'ADV' are removed</li>
@@ -15,7 +16,7 @@
         {{form.name.label}} {{form.name}}
     </div>
     <div class="input submit">
-        <input type="submit" value="Submit"></div>
+        <input type="submit" value="Suggest" style="background: green; color: white; width: 100px; height: 50px"></div>
 </form>
 
 {% with messages = get_flashed_messages(with_categories=true) %}

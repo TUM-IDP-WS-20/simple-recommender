@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import pickle5 as pickle
 import gensim
+from sklearn.metrics.pairwise import cosine_similarity
 
 pd.set_option('display.max_colwidth', None)
 pd.set_option('display.max_columns', None)
@@ -175,4 +176,7 @@ def make_suggestions(TAR_6):
 
     recs = produce_rec_top_n(prob_scores.flatten(), topic_array, doc_topic_df)
 
-    return list(recs['FILE_NAME'])
+    topic_columns = ['Topic ' + str(i) for i in range(1, df_topic_keywords.shape[0] + 1)]
+    recs['similarity'] = cosine_similarity(recs[topic_columns].values, prob_scores)
+
+    return recs.to_numpy()
