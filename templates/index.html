@@ -1,31 +1,76 @@
-<h1>Test first recommender engine</h1>
-<p>
-    The model used here is trained with following properties: <br/>
-<ul>
-    <li>All dataset which has 15751 documents used. It also includes accounting irrelevant data. This is the first test, later we are going to exclude them.</li>
-    <li>Only the first 3 pages of the papers are used in the training</li>
-    <li>Pipeline: Cleaned -> Stopwords Removed -> Lemmatized -> LDA Model -> Similarity Measurement (Cosine) -> Recommendation</li>
-    <li>In total 13208 stopwords are removed. 12854(<a target="_blank" href="https://drive.google.com/file/d/1gZfPtIQyQ82u12ScEvEndMMujfrnh8Gd/view?usp=sharing">University of Notre Dome accounting stopwords</a>) + 337(<a target="_blank" href="https://drive.google.com/file/d/1jwhQ8TrcAoSJ8QWhjJ_prgrvxe6LWK_Z/view?usp=sharing">standard english</a>) + 17(<a target="_blank" href="https://drive.google.com/file/d/1gZfPtIQyQ82u12ScEvEndMMujfrnh8Gd/view?usp=sharing">accounting stop words that we decided based on frequency of the words</a> ) </li>
-    <li>All words except NOUN', 'ADJ', 'VERB', 'ADV' are removed</li>
-    <li>NUM_OF_TOPICS = 30, NUM_OF_WORDS_IN_EACH_TOPIC = 20 set in LDA model</li>
-    <li>For detail: <a target="_blank" href="https://tum-idp-ws-20.github.io/doc/milestone-1-datapreprocessing-steps-comparison-based-on-LDA">https://tum-idp-ws-20.github.io/doc/milestone-1-datapreprocessing-steps-comparison-based-on-LDA</a> </li>
-</ul>
-</p>
-<form action="" method="post">
-    <div class="input textarea">
-        {{form.name.label}} {{form.name}}
-    </div>
-    <div class="input submit">
-        <input type="submit" value="Suggest" style="background: green; color: white; width: 100px; height: 50px"></div>
-</form>
+{% extends "bootstrap/base.html" %}
+{% block title %}Test first recommender engine{% endblock %}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-Recommendations:
-<ul>
-    {% for message in messages %}
-    <li>{{message[1]}}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-{% endwith %}
+{% block content %}
+<div class="container">
+    <h1>Test first recommender engine</h1>
+    <p>
+        The model used here is trained with following properties: <br/>
+    <ul>
+        <li>All dataset which has 15751 documents used. It also includes accounting irrelevant data. This is the first
+            test, later we are going to exclude them.
+        </li>
+        <li>Only the first 3 pages of the papers are used in the training</li>
+        <li>Pipeline: Cleaned -> Stopwords Removed -> Lemmatized -> LDA Model -> Similarity Measurement (Cosine) ->
+            Recommendation
+        </li>
+        <li>In total 13208 stopwords are removed. 12854(<a target="_blank"
+                                                           href="https://drive.google.com/file/d/1gZfPtIQyQ82u12ScEvEndMMujfrnh8Gd/view?usp=sharing">University
+            of Notre Dome accounting stopwords</a>) + 337(<a target="_blank"
+                                                             href="https://drive.google.com/file/d/1jwhQ8TrcAoSJ8QWhjJ_prgrvxe6LWK_Z/view?usp=sharing">standard
+            english</a>) + 17(<a target="_blank"
+                                 href="https://drive.google.com/file/d/1gZfPtIQyQ82u12ScEvEndMMujfrnh8Gd/view?usp=sharing">accounting
+            stop words that we decided based on frequency of the words</a> )
+        </li>
+        <li>All words except NOUN', 'ADJ', 'VERB', 'ADV' are removed</li>
+        <li>NUM_OF_TOPICS = 30, NUM_OF_WORDS_IN_EACH_TOPIC = 20 set in LDA model</li>
+        <li>For detail: <a target="_blank"
+                           href="https://tum-idp-ws-20.github.io/doc/milestone-1-datapreprocessing-steps-comparison-based-on-LDA">https://tum-idp-ws-20.github.io/doc/milestone-1-datapreprocessing-steps-comparison-based-on-LDA</a>
+        </li>
+    </ul>
+    </p>
+    <form action="" method="post">
+        Example input from TAR_6:
+        <div class="input textarea">
+            {{form.name.label}} {{form.name}}
+        </div>
+        <div class="input submit">
+            <input type="submit" value="Suggest" style="background: green; color: white; width: 100px; height: 50px">
+        </div>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <h2>Recommendations:</h2>
+    <ul>
+        {% for category, message in messages %}
+            {% if category != 'table' %}
+                <li>{{message}}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    {% endif %}
+    {% endwith %}
+
+</div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="container">
+        <h2>Topic Table</h2>
+    </div>
+
+    <div style="margin: 0 50px">
+        {% for category, message in messages %}
+            {% if category == 'table' %}
+                {{message}}
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+</div>
+    {# application content needs to be provided in the app_content block #}
+    {% block app_content %}{% endblock %}
+{% endblock %}
