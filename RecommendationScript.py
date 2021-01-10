@@ -21,6 +21,7 @@ df_topic_keywords = pickle.load(open(MODEL_PATH + "df_topic_keywords.pkl", "rb")
 doc_topic_df = pickle.load(open(MODEL_PATH + "doc_topic_df.pkl", "rb"))
 lda_model = pickle.load(open(MODEL_PATH + "lda_model.pkl", "rb"))
 count_vectorizer = pickle.load(open(MODEL_PATH + "count_vectorizer.pkl", "rb"))
+stop_list = pickle.load(open(MODEL_PATH + "stop_list.pkl", "rb"))
 
 # Utility functions
 def remove_dollar_sign(text):
@@ -135,6 +136,10 @@ def make_suggestions(TAR_6):
         # Clean
         for i in range(len(text)):
             text[i] = clean_text(text[i])
+
+        # Remove stopwords
+        for i in range(len(text)):
+            text[i] = remove_stopwords(text[i])
 
         # Clean with simple_preprocess
         mytext_2 = list(sent_to_words(text))

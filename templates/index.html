@@ -3,24 +3,23 @@
 
 {% block content %}
 <div class="container">
-    <h1>Test first recommender engine (v0.0.2)</h1>
+    <h1>Test first recommender engine (v0.0.3)</h1>
     <p>
         The model used here is trained with following properties: <br/>
     <ul>
-        <li>All dataset which has 15751 documents used. It also includes accounting irrelevant data. This is the first
-            test, later we are going to exclude them.
+        <li>All dataset which has 15219 documents used. It also includes accounting irrelevant data. Later we are going to exclude them.
         </li>
         <li>Only the first 3 pages of the papers are used in the training</li>
-        <li>Pipeline: Cleaned -> Stopwords Removed -> Lemmatized -> LDA Model -> Similarity Measurement (Cosine) ->
+        <li>Pipeline: Cleaned -> Remove Non-English Sentences -> Stopwords Removed -> Lemmatized -> LDA Model -> Similarity Measurement (Cosine) ->
             Recommendation
         </li>
-        <li>In total 13208 stopwords are removed. 12854(<a target="_blank"
+        <li>In total 12993 stopwords are removed: <a target="_blank"
                                                            href="https://drive.google.com/file/d/1gZfPtIQyQ82u12ScEvEndMMujfrnh8Gd/view?usp=sharing">University
-            of Notre Dome accounting stopwords</a>) + 337(<a target="_blank"
+            of Notre Dome accounting stopwords</a>, <a target="_blank"
                                                              href="https://drive.google.com/file/d/1jwhQ8TrcAoSJ8QWhjJ_prgrvxe6LWK_Z/view?usp=sharing">standard
-            english</a>) + 17(<a target="_blank"
-                                 href="https://drive.google.com/file/d/1gZfPtIQyQ82u12ScEvEndMMujfrnh8Gd/view?usp=sharing">accounting
-            stop words that we decided based on frequency of the words</a> )
+            english</a>, <a target="_blank"
+                                 href="https://drive.google.com/file/d/1op134plHcerwUds8E44Lw9gsI316Pus3/view?usp=sharing">MALLET English Stopwords</a>, <a target="_blank"
+                                 href="https://drive.google.com/file/d/1JMpcfriApigcV54q4ZPOE7GX8iwNgGBI/view?usp=sharing">MALLET French Stopwords</a>
         </li>
         <li>All words except NOUN', 'ADJ', 'VERB', 'ADV' are removed</li>
         <li>NUM_OF_TOPICS = 30, NUM_OF_WORDS_IN_EACH_TOPIC = 20 set in LDA model</li>
