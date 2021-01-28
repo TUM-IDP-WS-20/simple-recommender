@@ -1,4 +1,4 @@
-# simple-recommender
+# <a href = "https://simple-recommender.herokuapp.com/" >simple-recommender</a>
 A simple content based recommendation application. NLP model is trained in another repository. This application makes recommendation given input using pre-trained model.
 
 # Development 
