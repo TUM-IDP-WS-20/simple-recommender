@@ -17,12 +17,18 @@ A simple content based recommendation application. NLP model is trained in anoth
    ```shell
    pip3 install -r requirements.txt
    ```
-2. ### Run application
+2. ### Activate Github Large files to keep model
+   Install git lfs(Check up-to-date doc: https://git-lfs.github.com/)
+   ```shell
+   git lfs install
+   git lfs pull
+   ```
+3. ### Run application
    ```shell
    flask run
    ```
 
-3. ### Keep dependecies clear
+4. ### Keep dependecies clear
    All dependecies will be saved in `requirements.txt`. If a new library is needed for a notebook, please update dependecies on `requirements.txt` accordingly. You can follow the steps below to update it quickly:
 
    - Be sure to activate the environment as shown in **1.ii.**
@@ -30,12 +36,6 @@ A simple content based recommendation application. NLP model is trained in anoth
    - Update the `requirements.txt`:
    ```shell
    pip3 freeze -r requirements.txt > requirements.txt
-   ```
-
-4. ### Activate Github Large files to keep model
-   Install git lfs(Check up-to-date doc: https://git-lfs.github.com/)
-   ```shell
-   git lfs install
    ```
 
 
