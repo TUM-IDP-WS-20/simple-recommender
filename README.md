@@ -47,7 +47,11 @@ A simple content based recommendation application. NLP model is trained in anoth
    ```shell
       heroku login
    ```
-   3. Fetch heroku branch
+   3. Add `heroku` remote upstream url
+   ```shell
+   git remote add heroku https://git.heroku.com/simple-recommender.git
+   ```
+   4. Fetch heroku branch
    ```shell
       git fetch heroku master
    ```
