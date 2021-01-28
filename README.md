@@ -17,7 +17,7 @@ A simple content based recommendation application. NLP model is trained in anoth
    ```shell
    pip3 install -r requirements.txt
    ```
-2. ### Activate Github Large files to keep model
+2. ### Activate Github Large files to keep model files
    Install git lfs(Check up-to-date doc: https://git-lfs.github.com/)
    ```shell
    git lfs install
