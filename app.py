@@ -41,7 +41,9 @@ def index():
                       '<br /><strong>Journal: </strong>' + str(recs[i][35]) + \
                       '<br /><strong>Year: </strong>' + str(recs[i][32])[:4] + \
                       '<br /><strong>Authors: </strong>' + str(recs[i][33]) + \
-                      '<br /><strong>Similarity: </strong>' + "{:.16f}".format(recs[i][36]) + \
+#                      '<br /><strong>Similarity: </strong>' + "{:.16f}".format(recs[i][36]) + \
+                      '<br /><strong>Doi: </strong>' + str(recs[i][36]) + \
+                      '<br /><strong>Link: </strong>' + str(recs[i][37]) + \
                              '</div>'))
         else:
             flash('After putting input text and clicking "Suggest" button, you will see recommendations here.')
