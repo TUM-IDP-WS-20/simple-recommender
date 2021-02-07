@@ -3,15 +3,24 @@
 
 {% block content %}
 <div class="container">
-    <h1>Test first recommender engine (v0.0.3)</h1>
+    <h1>Test first recommender engine (v0.0.4)</h1>
     <p>
         The model used here is trained with following properties: <br/>
     <ul>
         <li>All dataset which has 15219 documents used. It also includes accounting irrelevant data. Later we are going to exclude them.
         </li>
         <li>Only the first 3 pages of the papers are used in the training</li>
-        <li>Pipeline: Cleaned -> Remove Non-English Sentences -> Stopwords Removed -> Lemmatized -> LDA Model -> Similarity Measurement (Cosine) ->
-            Recommendation
+        <li>Pipeline:
+          <ol>
+            <li>Cleaned</li>
+            <li>Remove Non-English Sentences</li>
+            <li><a href="https://docs.google.com/spreadsheets/d/1gLMiZNt-5gCKAkWJ4fxMvqbStbpTudL_/edit?usp=drive_web&ouid=105629648561424699499&rtpof=true">Remove journal names and unwanted words</a><strong>(new)</strong></li>
+            <li>Stopwords Removed</li>
+            <li>Lemmatized</li>
+            <li>LDA Model<strong>(updated: use 50 topics)</strong></li>
+            <li>Similarity Measurement (Cosine)</li>
+            <li>Recommendation</li>
+          </ol>
         </li>
         <li>In total 12993 stopwords are removed: <a target="_blank"
                                                            href="https://drive.google.com/file/d/1gZfPtIQyQ82u12ScEvEndMMujfrnh8Gd/view?usp=sharing">University
@@ -22,7 +31,7 @@
                                  href="https://drive.google.com/file/d/1JMpcfriApigcV54q4ZPOE7GX8iwNgGBI/view?usp=sharing">MALLET French Stopwords</a>
         </li>
         <li>All words except NOUN', 'ADJ', 'VERB', 'ADV' are removed</li>
-        <li>NUM_OF_TOPICS = 30, NUM_OF_WORDS_IN_EACH_TOPIC = 20 set in LDA model</li>
+        <li>NUM_OF_TOPICS = 50, NUM_OF_WORDS_IN_EACH_TOPIC = 20 set in LDA model</li>
         <li>For detail: <a target="_blank"
                            href="https://tum-idp-ws-20.github.io/doc/milestone-1-datapreprocessing-steps-comparison-based-on-LDA">https://tum-idp-ws-20.github.io/doc/milestone-1-datapreprocessing-steps-comparison-based-on-LDA</a>
         </li>
