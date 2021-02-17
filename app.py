@@ -37,13 +37,13 @@ def index():
 
             for i in range(len(recs)):
                 flash(Markup('<div style="width: 100%"><strong>File: </strong>' + RecommendationScript.get_file_name(str(recs[i][0])) + \
-                      '<br /><strong>Title: </strong>' + str(recs[i][34]) + \
-                      '<br /><strong>Journal: </strong>' + str(recs[i][35]) + \
-                      '<br /><strong>Year: </strong>' + str(recs[i][32])[:4] + \
-                      '<br /><strong>Authors: </strong>' + str(recs[i][33]) + \
-#                      '<br /><strong>Similarity: </strong>' + "{:.16f}".format(recs[i][36]) + \
-                      '<br /><strong>Doi: </strong>' + str(recs[i][36]) + \
-                      '<br /><strong>Link: </strong>' + str(recs[i][37]) + \
+                      '<br /><strong>Title: </strong>' + str(recs[i][54]) + \
+                      '<br /><strong>Journal: </strong>' + str(recs[i][55]) + \
+                      '<br /><strong>Year: </strong>' + str(recs[i][52])[:4] + \
+                      '<br /><strong>Authors: </strong>' + str(recs[i][53]) + \
+                      #'<br /><strong>Similarity: </strong>' + "{:.16f}".format(recs[i][36]) + \
+                      '<br /><strong>Doi: </strong>' + str(recs[i][56]) + \
+                      '<br /><strong>Link: </strong>' + str(recs[i][57]) + \
                              '</div>'))
         else:
             flash('After putting input text and clicking "Suggest" button, you will see recommendations here.')
