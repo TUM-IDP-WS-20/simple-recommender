@@ -41,9 +41,16 @@ class Engine(db.Model):
     items = db.relationship("Item", back_populates="engine")
     created_at = db.Column(db.DateTime(), default=datetime.utcnow)
 
-    def __init__(self, input_content, user_name):
-        self.input_content = input_content
-        self.user_name = user_name
+    def __init__(self, model_type, model_version, rating):
+        """
+
+        :param model_type:
+        :param model_version:
+        :param rating: integer rating between [1-5]
+        """
+        self.model_type = model_type
+        self.model_version = model_version
+        self.rating = rating
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
