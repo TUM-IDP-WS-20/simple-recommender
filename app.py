@@ -49,12 +49,14 @@ def index():
             flash(Markup(RecommendationScript.df_topic_keywords.to_html(classes='')), 'table')
 
             html_content = '<form action="" method="post">' \
+                           'Give general rating for this model: <input type="number" value="3" min="1" max="5" step="1" name="engine_rating_0" />' \
+                           '(1=very bad, 5=very good)' \
                            '<input type = "submit" value = "Rate" style="background: orange; color: white; width: 100px; height: 40px" />' \
                            '<ul>'
             for i in range(len(recs)):
                 html_content += '<li><div style="width: 100%"><strong>File: </strong>' + RecommendationScript.get_file_name(
                     str(recs[i][0])) + \
-                             '<br /><input type="text" value="1" name="rate_'+str(i)+'">' + \
+                             '<br /><input type="number" min="1" max="5" step="1" value="3" name="rate_'+str(i)+'">(give 1 to 5. 1=very bad, 5=very good)' + \
                              '<br /><strong>Title: </strong>' + str(recs[i][54]) + \
                              '<br /><strong>Journal: </strong>' + str(recs[i][55]) + \
                              '<br /><strong>Year: </strong>' + str(recs[i][52])[:4] + \
@@ -74,6 +76,7 @@ def index():
         name = request.form['name']
         recs = RecommendationScript.make_suggestions(name)
         ratings=[request.form['rate_0'],request.form['rate_1'],request.form['rate_2'],request.form['rate_3'],request.form['rate_4']]
+        engine_ratings=[request.form['engine_rating_0']]
 
         # FUCK
         #for i in range(5):
@@ -81,17 +84,17 @@ def index():
             #print(idnex)
             #ratings.append(request.form[''+idnex])
 
-        add_rating(name, recs, ratings)
+        add_rating(name, recs, ratings, engine_ratings)
         flash(Markup('<div style="font-size: 18px; color: green"> Thank you for rating!! You can take suggestion for different text! </div>'), 'rating')
 
     return render_template('index.html', form=form)
 
 
-def add_rating(input_content, recs, ratings):
+def add_rating(input_content, recs, ratings, engine_ratings):
     req = Request(input_content=input_content, user_name='test_user')
     db.session.add(req)
 
-    engine = Engine(model_type='LDA', model_version='model_8_content_3_topic_50', rating=5)
+    engine = Engine(model_type='LDA', model_version='model_8_content_3_topic_50', rating=engine_ratings[0])
     engine.request = req
     db.session.add(engine)
 
