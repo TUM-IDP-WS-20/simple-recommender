@@ -34,7 +34,8 @@ def index():
     form = ReusableForm(request.form)
 
     print(form.errors)
-    if request.method == 'POST':
+
+    if request.method == 'POST' and request.form['action'] == 'recommendation':
         name = request.form['name']
         print(name)
 
@@ -44,28 +45,49 @@ def index():
             # print(recs[0])
 
             # Save the comment here.
-            add_rating(name, recs)
 
             flash(Markup(RecommendationScript.df_topic_keywords.to_html(classes='')), 'table')
 
+            html_content = '<form action="" method="post">' \
+                           '<input type = "submit" value = "Rate" style="background: orange; color: white; width: 100px; height: 40px" />' \
+                           '<ul>'
             for i in range(len(recs)):
-                flash(Markup('<div style="width: 100%"><strong>File: </strong>' + RecommendationScript.get_file_name(
+                html_content += '<li><div style="width: 100%"><strong>File: </strong>' + RecommendationScript.get_file_name(
                     str(recs[i][0])) + \
+                             '<br /><input type="text" value="1" name="rate_'+str(i)+'">' + \
                              '<br /><strong>Title: </strong>' + str(recs[i][54]) + \
                              '<br /><strong>Journal: </strong>' + str(recs[i][55]) + \
                              '<br /><strong>Year: </strong>' + str(recs[i][52])[:4] + \
                              '<br /><strong>Authors: </strong>' + str(recs[i][53]) + \
-                             # '<br /><strong>Similarity: </strong>' + "{:.16f}".format(recs[i][36]) + \
                              '<br /><strong>Doi: </strong>' + str(recs[i][56]) + \
                              '<br /><strong>Link: </strong>' + str(recs[i][57]) + \
-                             '</div>'))
+                             '<br /><input type="hidden" name="name" value="'+name+'">' + \
+                             '<input type="hidden" name="action" value="rating">' + \
+                             '</div></li>'
+            html_content += '</ul></form>'
+            flash(Markup(html_content))
         else:
             flash('After putting input text and clicking "Suggest" button, you will see recommendations here.')
+
+    if request.method == 'POST' and request.form['action'] == 'rating':
+        print('test anmemasd a')
+        name = request.form['name']
+        recs = RecommendationScript.make_suggestions(name)
+        ratings=[request.form['rate_0'],request.form['rate_1'],request.form['rate_2'],request.form['rate_3'],request.form['rate_4']]
+
+        # FUCK
+        #for i in range(5):
+        #    idnex = 'rate_'+str(i)
+            #print(idnex)
+            #ratings.append(request.form[''+idnex])
+
+        add_rating(name, recs, ratings)
+        flash(Markup('<div style="font-size: 18px; color: green"> Thank you for rating!! You can take suggestion for different text! </div>'), 'rating')
 
     return render_template('index.html', form=form)
 
 
-def add_rating(input_content, recs):
+def add_rating(input_content, recs, ratings):
     req = Request(input_content=input_content, user_name='test_user')
     db.session.add(req)
 
@@ -75,7 +97,7 @@ def add_rating(input_content, recs):
 
     for sequence, rec in enumerate(recs):
         file_path = RecommendationScript.get_file_name(str(rec[0]))
-        rating = random.randint(-2, 2)
+        rating = ratings[sequence]
 
         item = Item(file_path=file_path, sequence=sequence, rating=rating)
 

@@ -45,39 +45,50 @@
         <div class="input submit">
             <input type="submit" value="Suggest" style="background: green; color: white; width: 100px; height: 50px">
         </div>
+        <input type="hidden" name="action" value="recommendation">
     </form>
-
+    {% set is_rated = False %}
     {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <h2>Recommendations:</h2>
-    <ul>
-        {% for category, message in messages %}
-            {% if category != 'table' %}
-                <li>{{message}}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-
-    {% endif %}
+    {% for category, message in messages %}
+        {% if category == 'rating' %}
+            {% set is_rated = True %}
+            {{message}}
+        {% endif %}
+    {% endfor %}
     {% endwith %}
+
+    {% if is_rated == False %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <h2>Recommendations:</h2>
+      {% for category, message in messages %}
+          {% if category != 'table' and category != 'rating' %}
+              {{message}}
+          {% endif %}
+      {% endfor %}
+
+      {% endif %}
+      {% endwith %}
+    {% endif %}
 
 </div>
+    {% if is_rated == False %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      <div class="container">
+          <h2>Topic Table</h2>
+      </div>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <div class="container">
-        <h2>Topic Table</h2>
-    </div>
-
-    <div style="margin: 0 50px">
-        {% for category, message in messages %}
-            {% if category == 'table' %}
-                {{message}}
-            {% endif %}
-        {% endfor %}
-    </div>
+      <div style="margin: 0 50px">
+          {% for category, message in messages %}
+              {% if category == 'table' %}
+                  {{message}}
+              {% endif %}
+          {% endfor %}
+      </div>
+      {% endif %}
+      {% endwith %}
     {% endif %}
-    {% endwith %}
 </div>
     {# application content needs to be provided in the app_content block #}
     {% block app_content %}{% endblock %}
