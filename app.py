@@ -24,6 +24,11 @@ def index():
 
     print(form.errors)
     if request.method == 'POST':
+        print("*******************************************")
+        if request.form.getlist('rate'):
+            user_answer = request.form.getlist('rate')
+            print(user_answer[0])
+        print("*******************************************")
         name = request.form['name']
         print(name)
 
@@ -50,6 +55,27 @@ def index():
 
     return render_template('index.html', form=form)
 
+def rate_movie():
+
+    # Create cursor
+    if request.method == 'POST':
+
+        data = request.get_json(force=True)
+        rating = data['rating']
+        id = data['id'] 
+        cursor = cnx.cursor()
+            # Execute
+        #cursor.execute("UPDATE favourites SET rating=5  WHERE id =49") ## Works 
+        cursor.execute("UPDATE favourites SET rating=%s  WHERE id =%s",(rating,id))
+        #("INSERT INTO favourites(rating)VALUES(%s) WHERE id =%s" ,(rating,id))
+            # Commit to DB
+        cnx.commit()
+
+            #Close connection
+        cursor.close()
+
+        flash('Movie Rated', 'success')
+    return redirect(url_for('my_f'))
 
 if __name__ == '__main__':
     # Threaded option to enable multiple instances for multiple user access support
