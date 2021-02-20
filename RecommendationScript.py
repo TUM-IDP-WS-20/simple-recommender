@@ -5,6 +5,8 @@ import pandas as pd
 import numpy as np
 import pickle5 as pickle
 import gensim
+from textacy import preprocessing
+import textacy
 from sklearn.metrics.pairwise import cosine_similarity
 
 pd.set_option('display.max_colwidth', None)
@@ -12,6 +14,7 @@ pd.set_option('display.max_columns', None)
 pd.set_option('display.max_rows', None)
 
 import en_core_web_sm
+
 nlp = en_core_web_sm.load()  # https://spacy.io/usage/models#production
 
 MODEL_PATH = 'model/'
@@ -22,6 +25,8 @@ doc_topic_df = pickle.load(open(MODEL_PATH + "doc_topic_df.pkl", "rb"))
 lda_model = pickle.load(open(MODEL_PATH + "lda_model.pkl", "rb"))
 count_vectorizer = pickle.load(open(MODEL_PATH + "count_vectorizer.pkl", "rb"))
 stop_list = pickle.load(open(MODEL_PATH + "stop_list.pkl", "rb"))
+REPLACED_WORDS = pickle.load(open(MODEL_PATH + "replaced_words.pkl", "rb"))
+
 
 # Utility functions
 def remove_dollar_sign(text):
@@ -46,17 +51,29 @@ def clean_text(text):
     text = text.encode('ascii', 'ignore').decode('ascii')
     # Remove links
     text = re.sub('(?:(?:https?|ftp):\/\/)?[\w/\-?=%.]+\.[\w/\-?=%.]+', '', text)
+    # Remove E-Mail addresses
+    text = re.sub(r'\b[a-z]+@[a-z]+\b', r'', str(text))
     # Remove non-alphanumerics
     text = re.sub('\w*\d\w*', ' ', text)
     # Remove punctuation and lowercase
     text = re.sub('[%s]' % re.escape(string.punctuation), ' ', text.lower())
     # Remove newline characters
-    text = text.replace('\n', ' ')
+    text = re.sub("\n", r' ', text)
     # Remove text in square brackets
     text = re.sub(r'\[.*?\]', '', text)
     # Remove words containing numbers
     text = re.sub(r'\w*\d\w*', '', text)
+    # https://textacy.readthedocs.io/en/0.10.1/_modules/textacy/preprocessing/normalize.html
+    text = textacy.preprocessing.normalize.normalize_whitespace(str(text))
+    # replace words with less than 2 characters
+    text = re.sub(r'\b[a-z]{1,2}\b', r'', str(text))
 
+    return text
+
+
+def replace_text(text, replacement_texts=REPLACED_WORDS):
+    pattern = re.compile("|".join([re.escape(i) for i in replacement_texts]))
+    text = pattern.sub(lambda m: '', str(text))
     return text
 
 
@@ -137,6 +154,12 @@ def make_suggestions(TAR_6):
         for i in range(len(text)):
             text[i] = clean_text(text[i])
 
+        for i in range(len(text)):
+            text[i] = replace_text(text[i])
+
+        for i in range(len(text)):
+            text[i] = clean_text(text[i])
+
         # Remove stopwords
         for i in range(len(text)):
             text[i] = remove_stopwords(text[i])
@@ -187,4 +210,4 @@ def make_suggestions(TAR_6):
     topic_columns = ['Topic ' + str(i) for i in range(1, df_topic_keywords.shape[0] + 1)]
     recs['similarity'] = cosine_similarity(recs[topic_columns].values, prob_scores)
 
-    return recs.to_numpy()
+    return recs

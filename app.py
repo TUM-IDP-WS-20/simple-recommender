@@ -41,11 +41,6 @@ def index():
 
         if form.validate():
             recs = RecommendationScript.make_suggestions(name)
-            # print('dssfdsf')
-            # print(recs[0])
-
-            # Save the comment here.
-
             flash(Markup(RecommendationScript.df_topic_keywords.to_html(classes='')), 'table')
 
             html_content = '<form action="" method="post">' \
@@ -55,17 +50,18 @@ def index():
                            '<ul>'
             for i in range(len(recs)):
                 html_content += '<li><div style="width: 100%"><strong>File: </strong>' + RecommendationScript.get_file_name(
-                    str(recs[i][0])) + \
-                             '<br /><input type="number" min="1" max="5" step="1" value="3" name="rate_'+str(i)+'">(give 1 to 5. 1=very bad, 5=very good)' + \
-                             '<br /><strong>Title: </strong>' + str(recs[i][54]) + \
-                             '<br /><strong>Journal: </strong>' + str(recs[i][55]) + \
-                             '<br /><strong>Year: </strong>' + str(recs[i][52])[:4] + \
-                             '<br /><strong>Authors: </strong>' + str(recs[i][53]) + \
-                             '<br /><strong>Doi: </strong>' + str(recs[i][56]) + \
-                             '<br /><strong>Link: </strong>' + str(recs[i][57]) + \
-                             '<br /><input type="hidden" name="name" value="'+name+'">' + \
-                             '<input type="hidden" name="action" value="rating">' + \
-                             '</div></li>'
+                    str(recs.iloc[i]["file_path"])) + \
+                                '<br /><input type="number" min="1" max="5" step="1" value="3" name="rate_' + str(
+                    i) + '">(give 1 to 5. 1=very bad, 5=very good)' + \
+                                '<br /><strong>Title: </strong>' + str(recs.iloc[i]["title"]) + \
+                                '<br /><strong>Journal: </strong>' + str(recs.iloc[i]["journal"]) + \
+                                '<br /><strong>Year: </strong>' + str(recs.iloc[i]["year"])[:4] + \
+                                '<br /><strong>Authors: </strong>' + str(recs.iloc[i]["authors"]) + \
+                                '<br /><strong>Doi: </strong>' + str(recs.iloc[i]["doi"]) + \
+                                '<br /><strong>Link: </strong>' + str(recs.iloc[i]["link"]) + \
+                                '<br /><input type="hidden" name="name" value="' + name + '">' + \
+                                '<input type="hidden" name="action" value="rating">' + \
+                                '</div></li>'
             html_content += '</ul></form>'
             flash(Markup(html_content))
         else:
@@ -75,17 +71,20 @@ def index():
         print('test anmemasd a')
         name = request.form['name']
         recs = RecommendationScript.make_suggestions(name)
-        ratings=[request.form['rate_0'],request.form['rate_1'],request.form['rate_2'],request.form['rate_3'],request.form['rate_4']]
-        engine_ratings=[request.form['engine_rating_0']]
+        ratings = [request.form['rate_0'], request.form['rate_1'], request.form['rate_2'], request.form['rate_3'],
+                   request.form['rate_4']]
+        engine_ratings = [request.form['engine_rating_0']]
 
         # FUCK
-        #for i in range(5):
+        # for i in range(5):
         #    idnex = 'rate_'+str(i)
-            #print(idnex)
-            #ratings.append(request.form[''+idnex])
+        # print(idnex)
+        # ratings.append(request.form[''+idnex])
 
         add_rating(name, recs, ratings, engine_ratings)
-        flash(Markup('<div style="font-size: 18px; color: green"> Thank you for rating!! You can take suggestion for different text! </div>'), 'rating')
+        flash(Markup(
+            '<div style="font-size: 18px; color: green"> Thank you for rating!! You can take suggestion for different text! </div>'),
+              'rating')
 
     return render_template('index.html', form=form)
 
