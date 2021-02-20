@@ -44,15 +44,14 @@ def index():
             flash(Markup(RecommendationScript.df_topic_keywords.to_html(classes='')), 'table')
 
             html_content = '<form action="" method="post">' \
-                           'Give general rating for this model: <input type="number" value="3" min="1" max="5" step="1" name="engine_rating_0" />' \
+                           'Give general rating for this model: <input type="number" name="engine_rating_0" class="rating heart-color" data-icon-lib="fa" data-active-icon="fa-heart" data-inactive-icon="fa-heart-o" data-inline/>' \
                            '(1=very bad, 5=very good)' \
-                           '<input type = "submit" value = "Rate" style="background: orange; color: white; width: 100px; height: 40px" />' \
+                           '' \
                            '<ul>'
             for i in range(len(recs)):
                 html_content += '<li><div style="width: 100%"><strong>File: </strong>' + RecommendationScript.get_file_name(
                     str(recs.iloc[i]["file_path"])) + \
-                                '<br /><input type="number" min="1" max="5" step="1" value="3" name="rate_' + str(
-                    i) + '">(give 1 to 5. 1=very bad, 5=very good)' + \
+                                '  <input type="number" name="rate_'+str(i)+'" class="rating star-color" data-inline/>' + \
                                 '<br /><strong>Title: </strong>' + str(recs.iloc[i]["title"]) + \
                                 '<br /><strong>Journal: </strong>' + str(recs.iloc[i]["journal"]) + \
                                 '<br /><strong>Year: </strong>' + str(recs.iloc[i]["year"])[:4] + \
@@ -62,7 +61,7 @@ def index():
                                 '<br /><input type="hidden" name="name" value="' + name + '">' + \
                                 '<input type="hidden" name="action" value="rating">' + \
                                 '</div></li>'
-            html_content += '</ul></form>'
+            html_content += '</ul><input type = "submit" value = "Rate" style="background: orange; color: white; width: 100px; height: 40px" /></form>'
             flash(Markup(html_content))
         else:
             flash('After putting input text and clicking "Suggest" button, you will see recommendations here.')
@@ -84,7 +83,7 @@ def index():
         add_rating(name, recs, ratings, engine_ratings)
         flash(Markup(
             '<div style="font-size: 18px; color: green"> Thank you for rating!! You can take suggestion for different text! </div>'),
-              'rating')
+            'rating')
 
     return render_template('index.html', form=form)
 
@@ -97,8 +96,8 @@ def add_rating(input_content, recs, ratings, engine_ratings):
     engine.request = req
     db.session.add(engine)
 
-    for sequence, rec in enumerate(recs):
-        file_path = RecommendationScript.get_file_name(str(rec[0]))
+    for sequence, rec in enumerate(recs['file_path'].values):
+        file_path = RecommendationScript.get_file_name(str(rec))
         rating = ratings[sequence]
 
         item = Item(file_path=file_path, sequence=sequence, rating=rating)
