@@ -1,9 +1,9 @@
 # <a href = "https://simple-recommender.herokuapp.com/" >simple-recommender</a>
 A simple content based recommendation application. NLP model is trained in another repository. This application makes recommendation given input using pre-trained model.
 
-# Development 
+# Development
 1. ### Install environment
-   1. Create an virtual environment 
+   1. Create an virtual environment
    ```shell
    virtualenv --python=python3.8 .venv
    ```
@@ -23,13 +23,22 @@ A simple content based recommendation application. NLP model is trained in anoth
    git lfs install
    git lfs pull
    ```
+3. ### Database Configuration
+   Make sure that you have installed `postgresql`.
+
+      - docker-compose run localDb bash
+      - export APP_SETTINGS="config.DevelopmentConfig"
+      - export DATABASE_URL="postgresql://localhost:5432/rec_database"
+      - python3 manage.py db init
+      - python3 manage.py db migrate
+      - python3 manage.py db upgrade
 3. ### Run application
    ```shell
    flask run
    ```
 
 4. ### Keep dependecies clear
-   All dependecies will be saved in `requirements.txt`. If a new library is needed for a notebook, please update dependecies on `requirements.txt` accordingly. You can follow the steps below to update it quickly:
+   All dependencies will be saved in `requirements.txt`. If a new library is needed for a notebook, please update dependecies on `requirements.txt` accordingly. You can follow the steps below to update it quickly:
 
    - Be sure to activate the environment as shown in **1.ii.**
    - Install the packages that you need like `pip3 install <package name>`
@@ -55,6 +64,9 @@ A simple content based recommendation application. NLP model is trained in anoth
    ```shell
       git fetch heroku master
    ```
+   5. Database Config
+        1. `heroku config:set APP_SETTINGS=config.ProductionConfig --remote heroku`
+        2. `heroku addons:create heroku-postgresql:hobby-dev --app simple-recommender`
 2. ### Deployment
    1. Commit changes
      Merge changes to `master` branch
@@ -63,3 +75,8 @@ A simple content based recommendation application. NLP model is trained in anoth
    ```shell
       git push heroku master
    ```
+
+3. ### Configure database if you made any change on it
+    1. `heroku config --app simple-recommender`
+    2. `git push heroku master:master --no-verify`
+    3. `heroku run python manage.py db upgrade --app simple-recommender`

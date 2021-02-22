@@ -1,0 +1,16 @@
+version: '3'
+services:
+  localDb:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=rec_database
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - database-data:/var/lib/postgresql/data/pgdata
+volumes:
+  database-data:
+    external: false
