@@ -68,8 +68,8 @@ def index():
                                     '<br /><strong>Year: </strong>' + str(recs.iloc[i]["year"])[:4] + \
                                     '<br /><strong>Authors: </strong>' + str(recs.iloc[i]["authors"]) + \
                                     '<br /><strong>Doi: </strong>' + str(recs.iloc[i]["doi"]) + \
-                                    '<br /><strong>Link: </strong><a href="' + str(recs.iloc[i]["link"]) + '">' + str(
-                        recs.iloc[i]["link"]) + '</a>' + \
+                                    '<br /><strong>Link: </strong>' + str(
+                        recs.iloc[i]["link"]) + '' + \
                                     '<br /><input type="hidden" name="name" value="' + name + '"/>' \
                                     '<input type="hidden" name="user_name" value="' + user_name + '"/>' + \
                                     '<input type="hidden" name="action" value="rating"/>' + \
