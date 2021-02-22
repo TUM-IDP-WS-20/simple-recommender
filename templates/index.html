@@ -1,70 +1,79 @@
 {% extends "bootstrap/base.html" %}
 {% block title %}Test first recommender engine (v0.0.2){% endblock %}
+{% block head %}
+  {{ super() }}
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+  <!-- <script src="src/bootstrap-rating-input.js"></script> -->
+  <script src="{{url_for('static', filename='js/bootstrap-rating-input.min.js')}}"></script>
+  <link rel="apple-touch-icon" sizes="180x180" href="{{url_for('static', filename='apple-touch-icon.png')}}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{url_for('static', filename='favicon-32x32.png')}}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static', filename='favicon-16x16.png')}}">
+  <link rel="manifest" href="{{url_for('static', filename='site.webmanifest')}}">
+  <script>
+  function validateForm() {
+    var engine_rating_0 = document.forms["myForm"]["engine_rating_0"].value;
+    var rate_0_0 = document.forms["myForm"]["rate_0_0"].value;
+    var rate_0_1 = document.forms["myForm"]["rate_0_1"].value;
+    var rate_0_2 = document.forms["myForm"]["rate_0_2"].value;
+    var rate_0_3 = document.forms["myForm"]["rate_0_3"].value;
+    var rate_0_4 = document.forms["myForm"]["rate_0_4"].value;
+
+    var engine_rating_1 = document.forms["myForm"]["engine_rating_1"].value;
+    var rate_1_0 = document.forms["myForm"]["rate_1_0"].value;
+    var rate_1_1 = document.forms["myForm"]["rate_1_1"].value;
+    var rate_1_2 = document.forms["myForm"]["rate_1_2"].value;
+    var rate_1_3 = document.forms["myForm"]["rate_1_3"].value;
+    var rate_1_4 = document.forms["myForm"]["rate_1_4"].value;
+
+    var engine_rating_2 = document.forms["myForm"]["engine_rating_2"].value;
+    var rate_2_0 = document.forms["myForm"]["rate_2_0"].value;
+    var rate_2_1 = document.forms["myForm"]["rate_2_1"].value;
+    var rate_2_2 = document.forms["myForm"]["rate_2_2"].value;
+    var rate_2_3 = document.forms["myForm"]["rate_2_3"].value;
+    var rate_2_4 = document.forms["myForm"]["rate_2_4"].value;
+
+    var engine_rating_3 = document.forms["myForm"]["engine_rating_3"].value;
+    var rate_3_0 = document.forms["myForm"]["rate_3_0"].value;
+    var rate_3_1 = document.forms["myForm"]["rate_3_1"].value;
+    var rate_3_2 = document.forms["myForm"]["rate_3_2"].value;
+    var rate_3_3 = document.forms["myForm"]["rate_3_3"].value;
+    var rate_3_4 = document.forms["myForm"]["rate_3_4"].value;
+
+
+    if (engine_rating_0.length == 0 || rate_0_0.length == 0 ||
+    rate_0_1.length == 0 || rate_0_2.length == 0 || rate_0_3.length == 0 || rate_0_4.length == 0 ||
+    engine_rating_1.length == 0 || rate_1_1.length == 0 || rate_1_2.length == 0 || rate_1_3.length == 0 || rate_1_4.length == 0 ||
+    engine_rating_2.length == 0 || rate_2_1.length == 0 || rate_2_2.length == 0 || rate_2_3.length == 0 || rate_2_4.length == 0 ||
+    engine_rating_3.length == 0 || rate_3_1.length == 0 || rate_3_2.length == 0 || rate_3_3.length == 0 || rate_3_4.length == 0
+    ) {
+      alert("Please rate all items and models!");
+      return false;
+    }
+  }
+  </script>
+  <style>
+    .star-color {
+      color: orange;
+      font-size: 20px;
+    }
+    .heart-color {
+      color: red;
+      font-size: 30px;
+    }
+    .input-text {
+      width: 100%;
+      min-height: 150px
+    }
+
+  </style>
+{% endblock %}
 
 {% block content %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<!-- <script src="src/bootstrap-rating-input.js"></script> -->
-<script src="{{url_for('static', filename='js/bootstrap-rating-input.min.js')}}"></script>
-<script>
-function validateForm() {
-  var engine_rating_0 = document.forms["myForm"]["engine_rating_0"].value;
-  var rate_0_0 = document.forms["myForm"]["rate_0_0"].value;
-  var rate_0_1 = document.forms["myForm"]["rate_0_1"].value;
-  var rate_0_2 = document.forms["myForm"]["rate_0_2"].value;
-  var rate_0_3 = document.forms["myForm"]["rate_0_3"].value;
-  var rate_0_4 = document.forms["myForm"]["rate_0_4"].value;
 
-  var engine_rating_1 = document.forms["myForm"]["engine_rating_1"].value;
-  var rate_1_0 = document.forms["myForm"]["rate_1_0"].value;
-  var rate_1_1 = document.forms["myForm"]["rate_1_1"].value;
-  var rate_1_2 = document.forms["myForm"]["rate_1_2"].value;
-  var rate_1_3 = document.forms["myForm"]["rate_1_3"].value;
-  var rate_1_4 = document.forms["myForm"]["rate_1_4"].value;
-
-  var engine_rating_2 = document.forms["myForm"]["engine_rating_2"].value;
-  var rate_2_0 = document.forms["myForm"]["rate_2_0"].value;
-  var rate_2_1 = document.forms["myForm"]["rate_2_1"].value;
-  var rate_2_2 = document.forms["myForm"]["rate_2_2"].value;
-  var rate_2_3 = document.forms["myForm"]["rate_2_3"].value;
-  var rate_2_4 = document.forms["myForm"]["rate_2_4"].value;
-
-  var engine_rating_3 = document.forms["myForm"]["engine_rating_3"].value;
-  var rate_3_0 = document.forms["myForm"]["rate_3_0"].value;
-  var rate_3_1 = document.forms["myForm"]["rate_3_1"].value;
-  var rate_3_2 = document.forms["myForm"]["rate_3_2"].value;
-  var rate_3_3 = document.forms["myForm"]["rate_3_3"].value;
-  var rate_3_4 = document.forms["myForm"]["rate_3_4"].value;
-
-
-  if (engine_rating_0.length == 0 || rate_0_0.length == 0 ||
-  rate_0_1.length == 0 || rate_0_2.length == 0 || rate_0_3.length == 0 || rate_0_4.length == 0 ||
-  engine_rating_1.length == 0 || rate_1_1.length == 0 || rate_1_2.length == 0 || rate_1_3.length == 0 || rate_1_4.length == 0 ||
-  engine_rating_2.length == 0 || rate_2_1.length == 0 || rate_2_2.length == 0 || rate_2_3.length == 0 || rate_2_4.length == 0 ||
-  engine_rating_3.length == 0 || rate_3_1.length == 0 || rate_3_2.length == 0 || rate_3_3.length == 0 || rate_3_4.length == 0
-  ) {
-    alert("Please rate all items and models!");
-    return false;
-  }
-}
-</script>
-<style>
-  .star-color {
-    color: orange;
-    font-size: 20px;
-  }
-  .heart-color {
-    color: red;
-    font-size: 30px;
-  }
-  .input-text {
-    width: 100%;
-    min-height: 150px
-  }
-
-</style>
 <div class="container" style="padding-bottom: 50px">
     <h1>Literature Recommendation Software (v0.2.35)</h1>
     <form action="" method="post">
@@ -81,6 +90,7 @@ function validateForm() {
             Each model has 5 recommended items that are sorted by similarities. The most similar item takes place at top.
             Rate items in each model individually. In each model, Give 5 stars to an item that you found the most similar one out of 5 items. Give 4 stars to the less similar item, and so on.
           </li>
+          <li>5. Click the 'Rate' button at the very bottom to save your ratings.</li>
         </ul>
       </p>
       <h3>Affects of the number of words used in input</h3>
@@ -133,7 +143,7 @@ function validateForm() {
     {% endif %}
 
 </div>
-    {% if is_rated == False %}
+    {% if is_rated == False and False %}
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
       <div class="container">
