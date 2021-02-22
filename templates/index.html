@@ -8,7 +8,48 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <!-- <script src="src/bootstrap-rating-input.js"></script> -->
 <script src="{{url_for('static', filename='js/bootstrap-rating-input.min.js')}}"></script>
+<script>
+function validateForm() {
+  var engine_rating_0 = document.forms["myForm"]["engine_rating_0"].value;
+  var rate_0_0 = document.forms["myForm"]["rate_0_0"].value;
+  var rate_0_1 = document.forms["myForm"]["rate_0_1"].value;
+  var rate_0_2 = document.forms["myForm"]["rate_0_2"].value;
+  var rate_0_3 = document.forms["myForm"]["rate_0_3"].value;
+  var rate_0_4 = document.forms["myForm"]["rate_0_4"].value;
 
+  var engine_rating_1 = document.forms["myForm"]["engine_rating_1"].value;
+  var rate_1_0 = document.forms["myForm"]["rate_1_0"].value;
+  var rate_1_1 = document.forms["myForm"]["rate_1_1"].value;
+  var rate_1_2 = document.forms["myForm"]["rate_1_2"].value;
+  var rate_1_3 = document.forms["myForm"]["rate_1_3"].value;
+  var rate_1_4 = document.forms["myForm"]["rate_1_4"].value;
+
+  var engine_rating_2 = document.forms["myForm"]["engine_rating_2"].value;
+  var rate_2_0 = document.forms["myForm"]["rate_2_0"].value;
+  var rate_2_1 = document.forms["myForm"]["rate_2_1"].value;
+  var rate_2_2 = document.forms["myForm"]["rate_2_2"].value;
+  var rate_2_3 = document.forms["myForm"]["rate_2_3"].value;
+  var rate_2_4 = document.forms["myForm"]["rate_2_4"].value;
+
+  var engine_rating_3 = document.forms["myForm"]["engine_rating_3"].value;
+  var rate_3_0 = document.forms["myForm"]["rate_3_0"].value;
+  var rate_3_1 = document.forms["myForm"]["rate_3_1"].value;
+  var rate_3_2 = document.forms["myForm"]["rate_3_2"].value;
+  var rate_3_3 = document.forms["myForm"]["rate_3_3"].value;
+  var rate_3_4 = document.forms["myForm"]["rate_3_4"].value;
+
+
+  if (engine_rating_0.length == 0 || rate_0_0.length == 0 ||
+  rate_0_1.length == 0 || rate_0_2.length == 0 || rate_0_3.length == 0 || rate_0_4.length == 0 ||
+  engine_rating_1.length == 0 || rate_1_1.length == 0 || rate_1_2.length == 0 || rate_1_3.length == 0 || rate_1_4.length == 0 ||
+  engine_rating_2.length == 0 || rate_2_1.length == 0 || rate_2_2.length == 0 || rate_2_3.length == 0 || rate_2_4.length == 0 ||
+  engine_rating_3.length == 0 || rate_3_1.length == 0 || rate_3_2.length == 0 || rate_3_3.length == 0 || rate_3_4.length == 0
+  ) {
+    alert("Please rate all items and models!");
+    return false;
+  }
+}
+</script>
 <style>
   .star-color {
     color: orange;
@@ -16,48 +57,41 @@
   }
   .heart-color {
     color: red;
-    font-size: 20px;
+    font-size: 30px;
+  }
+  .input-text {
+    width: 100%;
+    min-height: 150px
   }
 
 </style>
-<div class="container">
-    <h1>Test first recommender engine (v0.0.4)</h1>
-    <p>
-        The model used here is trained with following properties: <br/>
-    <ul>
-        <li>All dataset which has 15219 documents used. It also includes accounting irrelevant data. Later we are going to exclude them.
-        </li>
-        <li>Only the first 3 pages of the papers are used in the training</li>
-        <li>Pipeline:
-          <ol>
-            <li>Cleaned</li>
-            <li>Remove Non-English Sentences</li>
-            <li><a href="https://docs.google.com/spreadsheets/d/1gLMiZNt-5gCKAkWJ4fxMvqbStbpTudL_/edit?usp=drive_web&ouid=105629648561424699499&rtpof=true">Remove journal names and unwanted words</a><strong>(new)</strong></li>
-            <li>Stopwords Removed</li>
-            <li>Lemmatized</li>
-            <li>LDA Model<strong>(updated: use 50 topics)</strong></li>
-            <li>Similarity Measurement (Cosine)</li>
-            <li>Recommendation</li>
-          </ol>
-        </li>
-        <li>In total 12993 stopwords are removed: <a target="_blank"
-                                                           href="https://drive.google.com/file/d/1gZfPtIQyQ82u12ScEvEndMMujfrnh8Gd/view?usp=sharing">University
-            of Notre Dome accounting stopwords</a>, <a target="_blank"
-                                                             href="https://drive.google.com/file/d/1jwhQ8TrcAoSJ8QWhjJ_prgrvxe6LWK_Z/view?usp=sharing">standard
-            english</a>, <a target="_blank"
-                                 href="https://drive.google.com/file/d/1op134plHcerwUds8E44Lw9gsI316Pus3/view?usp=sharing">MALLET English Stopwords</a>, <a target="_blank"
-                                 href="https://drive.google.com/file/d/1JMpcfriApigcV54q4ZPOE7GX8iwNgGBI/view?usp=sharing">MALLET French Stopwords</a>
-        </li>
-        <li>All words except NOUN', 'ADJ', 'VERB', 'ADV' are removed</li>
-        <li>NUM_OF_TOPICS = 50, NUM_OF_WORDS_IN_EACH_TOPIC = 20 set in LDA model</li>
-        <li>For detail: <a target="_blank"
-                           href="https://tum-idp-ws-20.github.io/doc/milestone-1-datapreprocessing-steps-comparison-based-on-LDA">https://tum-idp-ws-20.github.io/doc/milestone-1-datapreprocessing-steps-comparison-based-on-LDA</a>
-        </li>
-    </ul>
-    </p>
+<div class="container" style="padding-bottom: 50px">
+    <h1>Literature Recommendation Software (v0.2.35)</h1>
     <form action="" method="post">
+      <p>
+        Hello <select name="user_name"><option value="florian" selected>Florian</option><option value="melike">Melike</option><option value="faruk">Faruk</option></select>!
+        We are appreciated for your help to make this recommendation engine better ❤ <br />
+        We kindly ask you:
+        <ul>
+          <li>1. to provide a paragraph with a couple words</li>
+          <li>2. click the 'Suggest' button below to refine recommendations</li>
+          <li>(You will see 5 recommended items from 4 different models)</li>
+          <li>3. Compare models in general. Give overall ratings to recommendation engines(models) using heart rating bars.</li>
+          <li>4. Rate recommended items in each model.
+            Each model has 5 recommended items that are sorted by similarities. The most similar item takes place at top.
+            Rate items in each model individually. In each model, Give 5 stars to an item that you found the most similar one out of 5 items. Give 4 stars to the less similar item, and so on.
+          </li>
+        </ul>
+      </p>
+      <h3>Affects of the number of words used in input</h3>
+      <p>
+        We would like to give a hint for you to test models by 'good' input text. Recommendation quality varies based on input texts. At first, test the system with the input text that you want. Then, try to change the input text(increase or decrease the number of words that you use) and give a rating.
+
+        <iframe width="736" height="455" seamless frameborder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vR0rPzUe7zfBQuYbePWyJKLhTMvT-H1YflTGvATG4a8PiNISrN8ax_ULzY9QJRG0dyJcAR9GtEXXKu8/pubchart?oid=1711490508&amp;format=interactive"></iframe>
+      </p>
+
         Example input from TAR_6:
-        <div class="input textarea">
+        <div class="input textarea" style="width: 100%; min-height: 150px;">
             {{form.name.label}} {{form.name}}
         </div>
         <div class="input submit">
@@ -65,11 +99,9 @@
         </div>
         <input type="hidden" name="action" value="recommendation">
     </form>
-    {% set is_rated = False %}
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% for category, message in messages %}
         {% if category == 'rating' %}
-            {% set is_rated = True %}
             {{message}}
         {% endif %}
     {% endfor %}
@@ -79,11 +111,22 @@
       {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
       <h2>Recommendations:</h2>
-      {% for category, message in messages %}
-          {% if category != 'table' and category != 'rating' %}
-              {{message}}
-          {% endif %}
-      {% endfor %}
+      <form name="myForm" action="" method="post" onsubmit="return validateForm()">
+          <table width="100%">
+            <tr>
+              {% for category, message in messages %}
+                  {% if category != 'table' and category != 'rating' %}
+                      <td colspan="1">{{message}}</td>
+                  {% endif %}
+              {% endfor %}
+            </tr>
+            <tr>
+              <td colspan="2" style="text-align: center">
+                <input type = "submit" value = "Rate" style="background: orange; color: white; width: 100px; height: 40px" />
+              </td>
+            </tr>
+          </table>
+      </form>
 
       {% endif %}
       {% endwith %}
