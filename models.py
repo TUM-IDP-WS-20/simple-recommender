@@ -9,12 +9,14 @@ class Request(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     input_content = db.Column(db.Text())
     user_name = db.Column(db.String())
+    input_item_name = db.Column(db.String())
     engines = db.relationship("Engine", back_populates="request")
     created_at = db.Column(db.DateTime(), default=datetime.utcnow)
 
-    def __init__(self, input_content, user_name):
+    def __init__(self, input_content, user_name, input_item_name):
         self.input_content = input_content
         self.user_name = user_name
+        self.input_item_name = input_item_name
 
     def __repr__(self):
         return '<id {}>'.format(self.id)
@@ -24,6 +26,7 @@ class Request(db.Model):
             'id': self.id,
             'input_content': self.input,
             'user_name': self.user_name,
+            'input_item_name': self.input_item_name,
             'created_at': self.created_at
         }
 

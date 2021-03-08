@@ -82,9 +82,9 @@ def index():
 
     if request.method == 'POST' and request.form['action'] == 'rating':
         is_rated = True
-        print('test anmemasd a')
         name = request.form['name']
         user_name = request.form['user_name']
+        input_item_name = request.form['input_item_name']
 
         lda_recs = RecommendationScript.make_suggestions(name, engine=0)
         lda_ratings = [request.form['rate_0_0'], request.form['rate_0_1'], request.form['rate_0_2'],
@@ -110,7 +110,7 @@ def index():
                         request.form['rate_3_4']]
         nmf_engine_ratings2 = request.form['engine_rating_3']
 
-        add_rating(name, user_name, [lda_recs, lda_recs2, nmf_recs, nmf_recs2],
+        add_rating(name, user_name, input_item_name, [lda_recs, lda_recs2, nmf_recs, nmf_recs2],
                    [lda_ratings, lda_ratings2, nmf_ratings, nmf_ratings2],
                    [lda_engine_ratings, lda_engine_ratings2, nmf_engine_ratings, nmf_engine_ratings2])
         flash(Markup(
@@ -120,8 +120,8 @@ def index():
     return render_template('index.html', form=form, is_rated=is_rated)
 
 
-def add_rating(input_content, user_name, recs_, ratings_, engine_ratings):
-    req = Request(input_content=input_content, user_name=user_name)
+def add_rating(input_content, user_name, input_item_name, recs_, ratings_, engine_ratings):
+    req = Request(input_content=input_content, user_name=user_name, input_item_name=input_item_name)
     db.session.add(req)
 
     for index, recs in enumerate(recs_):
