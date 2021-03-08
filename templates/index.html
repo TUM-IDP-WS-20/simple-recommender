@@ -1,5 +1,5 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}Literature Recommendation Software (v0.2.36){% endblock %}
+{% block title %}Literature Recommendation Software (v0.2.4){% endblock %}
 {% block head %}
   {{ super() }}
 
@@ -53,18 +53,6 @@
       alert("Please rate all items and models!");
       return false;
     }
-
-
-    var rating_sequence = [1,2,3,4,5]
-    if (
-      JSON.stringify([parseInt(rate_0_0),parseInt(rate_0_1),parseInt(rate_0_2),parseInt(rate_0_3),parseInt(rate_0_4)].sort()) !== JSON.stringify(rating_sequence) ||
-      JSON.stringify([parseInt(rate_1_0),parseInt(rate_1_1),parseInt(rate_1_2),parseInt(rate_1_3),parseInt(rate_1_4)].sort()) !== JSON.stringify(rating_sequence) ||
-      JSON.stringify([parseInt(rate_2_0),parseInt(rate_2_1),parseInt(rate_2_2),parseInt(rate_2_3),parseInt(rate_2_4)].sort()) !== JSON.stringify(rating_sequence) ||
-      JSON.stringify([parseInt(rate_3_0),parseInt(rate_3_1),parseInt(rate_3_2),parseInt(rate_3_3),parseInt(rate_3_4)].sort()) !== JSON.stringify(rating_sequence)
-    ) {
-      alert("Error: You gave the same number of stars to more than 1 item inside the same model. Could you please give 5 stars to an item that you found the most similar one out of 5 items and continue to rate items decreasing the number of stars by 1? Imagine like you have just 5 stars, 4 stars, 3 stars, 2 stars, and 1 star to give. When you give 5 stars to an item inside a model, you cannot give 5 stars again to a different item inside the same model.");
-      return false;
-    }
   }
   </script>
   <style>
@@ -87,7 +75,7 @@
 {% block content %}
 
 <div class="container" style="padding-bottom: 50px">
-    <h1>Literature Recommendation Software (v0.2.35)</h1>
+    <h1>Literature Recommendation Software (v0.2.4)</h1>
     <form action="" method="post">
       <p>
         Hello <select name="user_name"><option value="florian" selected>Florian</option><option value="melike">Melike</option><option value="faruk">Faruk</option></select>!
@@ -134,6 +122,9 @@
       {% if messages %}
       <h2>Recommendations:</h2>
       <form name="myForm" action="" method="post" onsubmit="return validateForm()">
+          If you took the input from a paper and you are expecting to see it in the recommended items, please give the name of this paper in a format like '6_TAR' below.
+          <br /><input name="input_item_name" placeholder="paper name like '6_TAR'" style="width: 400px; height: 50px" />(optional)<br />
+        We will use this information to adjust the parameters of the models to give better results based on user expectations.
           <table width="100%">
             <tr>
               {% for category, message in messages %}
