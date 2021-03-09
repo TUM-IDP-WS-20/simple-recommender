@@ -36,10 +36,9 @@ def index():
     form = ReusableForm(request.form)
 
     # num of test cases
-    from sqlalchemy import func
-    florian_num = db.session.query(func.count(Request.id)).filter(Request.user_name == 'florian').scalar()
-    faruk_num = db.session.query(func.count(Request.id)).filter(Request.user_name == 'faruk').scalar()
-    melike_num = db.session.query(func.count(Request.id)).filter(Request.user_name == 'melike').scalar()
+    florian_num = db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'florian'}).fetchone()[0]
+    faruk_num = db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'faruk'}).fetchone()[0]
+    melike_num = db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'melike'}).fetchone()[0]
 
     print(form.errors)
 
