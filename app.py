@@ -35,6 +35,12 @@ def index():
     is_rated = False
     form = ReusableForm(request.form)
 
+    # num of test cases
+    from sqlalchemy import func
+    florian_num = db.session.query(func.count(Request.id)).filter(Request.user_name == 'florian').scalar()
+    faruk_num = db.session.query(func.count(Request.id)).filter(Request.user_name == 'faruk').scalar()
+    melike_num = db.session.query(func.count(Request.id)).filter(Request.user_name == 'melike').scalar()
+
     print(form.errors)
 
     if request.method == 'POST' and request.form['action'] == 'recommendation':
@@ -71,7 +77,7 @@ def index():
                                     '<br /><strong>Link: </strong>' + str(
                         recs.iloc[i]["link"]) + '' + \
                                     '<br /><input type="hidden" name="name" value="' + name + '"/>' \
-                                    '<input type="hidden" name="user_name" value="' + user_name + '"/>' + \
+                                                                                              '<input type="hidden" name="user_name" value="' + user_name + '"/>' + \
                                     '<input type="hidden" name="action" value="rating"/>' + \
                                     '</div></li>'
                 html_content += '</ul>' \
@@ -117,7 +123,8 @@ def index():
             '<div style="font-size: 18px; color: green"> Thank you for rating!! You can take suggestion for different text! </div>'),
             'rating')
 
-    return render_template('index.html', form=form, is_rated=is_rated)
+    return render_template('index.html', form=form, is_rated=is_rated,
+                           florian_num=florian_num, faruk_num=faruk_num, melike_num=melike_num)
 
 
 def add_rating(input_content, user_name, input_item_name, recs_, ratings_, engine_ratings):
