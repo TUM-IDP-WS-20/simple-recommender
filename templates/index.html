@@ -1,5 +1,5 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}Literature Recommendation Software (v0.2.4){% endblock %}
+{% block title %}Literature Recommendation Software (v0.2.5){% endblock %}
 {% block head %}
   {{ super() }}
 
@@ -75,10 +75,14 @@
 {% block content %}
 
 <div class="container" style="padding-bottom: 50px">
-    <h1>Literature Recommendation Software (v0.2.4)</h1>
+    <h1>Literature Recommendation Software (v0.2.5)</h1>
     <form action="" method="post">
       <p>
-        Hello <select name="user_name"><option value="florian" selected>Florian</option><option value="melike">Melike</option><option value="faruk">Faruk</option></select>!
+        Hello <select name="user_name">
+                <option value="florian" selected>Florian ({{florian_num}})</option>
+                <option value="melike">Melike ({{melike_num}})</option>
+                <option value="faruk">Faruk ({{faruk_num}})</option>
+              </select>!
         We are appreciated for your help to make this recommendation engine better ❤ <br />
         We kindly ask you:
         <ul>
