@@ -36,10 +36,11 @@ def index():
     form = ReusableForm(request.form)
 
     # num of test cases
-    florian_num = db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'florian'}).fetchone()[0]
-    faruk_num = db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'faruk'}).fetchone()[0]
-    melike_num = db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'melike'}).fetchone()[0]
-
+    florian_num = \
+    db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'florian'}).fetchone()[0]
+    faruk_num = 0  # db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'faruk'}).fetchone()[0]
+    melike_num = 1  # db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'melike'}).fetchone()[0]
+    db.session.flush()
     print(form.errors)
 
     if request.method == 'POST' and request.form['action'] == 'recommendation':
@@ -147,6 +148,7 @@ def add_rating(input_content, user_name, input_item_name, recs_, ratings_, engin
             db.session.add(item)
 
     db.session.commit()
+    db.session.flush()
 
 
 if __name__ == '__main__':
