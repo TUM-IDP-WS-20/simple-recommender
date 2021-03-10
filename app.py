@@ -7,6 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 from markupsafe import Markup
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 from flask_bootstrap import Bootstrap
+import gc
 
 # App config.
 import RecommendationScript
@@ -36,11 +37,10 @@ def index():
     form = ReusableForm(request.form)
 
     # num of test cases
-    florian_num = 1
-    #db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'florian'}).fetchone()[0]
-    faruk_num = 0  # db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'faruk'}).fetchone()[0]
-    melike_num = 1  # db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'melike'}).fetchone()[0]
-    #db.session.flush()
+    florian_num = db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'florian'}).fetchone()[0]
+    faruk_num = db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'faruk'}).fetchone()[0]
+    melike_num = db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'melike'}).fetchone()[0]
+    db.session.flush()
     print(form.errors)
 
     if request.method == 'POST' and request.form['action'] == 'recommendation':
@@ -83,6 +83,13 @@ def index():
                 html_content += '</ul>' \
                                 ''
                 flash(Markup(html_content))
+                del html_content
+
+            del lda_recs
+            del lda_recs2
+            del nmf_recs
+            del nmf_recs2
+            gc.collect()
         else:
             flash('After putting input text and clicking "Suggest" button, you will see recommendations here.')
 
@@ -123,6 +130,11 @@ def index():
             '<div style="font-size: 18px; color: green"> Thank you for rating!! You can take suggestion for different text! </div>'),
             'rating')
 
+        del lda_recs
+        del lda_recs2
+        del nmf_recs
+        del nmf_recs2
+        gc.collect()
     return render_template('index.html', form=form, is_rated=is_rated,
                            florian_num=florian_num, faruk_num=faruk_num, melike_num=melike_num)
 
@@ -149,6 +161,9 @@ def add_rating(input_content, user_name, input_item_name, recs_, ratings_, engin
 
     db.session.commit()
     db.session.flush()
+
+    del input_content, user_name, input_item_name, recs_, ratings_, engine_ratings
+    gc.collect()
 
 
 if __name__ == '__main__':

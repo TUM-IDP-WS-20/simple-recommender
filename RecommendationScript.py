@@ -8,6 +8,7 @@ import gensim
 from textacy import preprocessing
 import textacy
 from sklearn.metrics.pairwise import cosine_similarity
+import gc
 
 pd.set_option('display.max_colwidth', None)
 pd.set_option('display.max_columns', None)
@@ -227,5 +228,16 @@ def make_suggestions(TAR_6, engine):
 
     topic_columns = ['Topic ' + str(i) for i in range(1, df_topic_keywords.shape[0] + 1)]
     recs['similarity'] = cosine_similarity(recs[topic_columns].values, prob_scores)
+
+    del norms
+    del topic_array
+    del df_topic_keywords
+    del doc_topic_df
+    del lda_model
+    del count_vectorizer
+    del prob_scores
+    del topic
+    del topic_columns
+    gc.collect()
 
     return recs
