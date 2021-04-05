@@ -18,7 +18,7 @@ import en_core_web_sm
 
 nlp = en_core_web_sm.load()  # https://spacy.io/usage/models#production
 
-MODEL_PATH = 'models/'
+MODEL_PATH = 'app/models/'
 REPLACED_WORDS = pickle.load(open(MODEL_PATH + "replaced_words.pkl", "rb"))
 stop_list = pickle.load(open(MODEL_PATH + "stop_list.pkl", "rb"))
 

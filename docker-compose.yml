@@ -1,16 +1,43 @@
 version: '3'
 services:
-  localDb:
-    image: postgres
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=rec_database
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    volumes:
-      - database-data:/var/lib/postgresql/data/pgdata
-volumes:
-  database-data:
-    external: false
+    lrs_app:
+        restart: on-failure
+        build:
+            context: .
+            dockerfile: ./app/.dockerfile
+        environment:
+            APP_SETTINGS: app.config.DevelopmentConfig
+            DATABASE_URL: postgresql://user:password@lrs_db:5432/rec_database
+        working_dir: '/app'
+        command: "gunicorn --reload --bind 0.0.0.0:5000 'app:lrs_app'"
+        depends_on:
+            - lrs_db
+        networks: [ 'spx-network' ]
+
+    lrs_db:
+        image: postgres
+        ports:
+            - 5432:5432
+        environment:
+            - POSTGRES_USER=user
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_DB=rec_database
+            - PGDATA=/pdata
+        volumes:
+            - ./docker/lrs_database_init.sql:/docker-entrypoint-initdb.d/lrs_database_init.sql
+        networks: [ 'spx-network' ]
+
+    nginx:
+        restart: on-failure
+        build:
+            context: ./docker/nginx
+            dockerfile: ../nginx.dockerfile
+        volumes:
+            - ./app/static:/static
+        ports: [ '80:80' ]
+        depends_on: [ 'lrs_app' ]
+        networks: [ 'spx-network' ]
+
+networks:
+    spx-network:
+        name: lrs_shared_network
