@@ -1,9 +1,27 @@
 # <a href = "https://simple-recommender.herokuapp.com/" >simple-recommender</a>
 A simple content based recommendation application. NLP model is trained in another repository. This application makes recommendation given input using pre-trained model.
 
+# Running application with Docker
+## Requirements
+Docker allows you to run this application on every operating system. The only requirement is to have running Docker engine instance. If it is installed and running, `docker run hello-world` command returns "Hello from Docker!" text. Otherwise, please head over to https://docs.docker.com/get-started/#download-and-install-docker and go through the installation steps.
+
+## Running
+1. Download this repository to your local machine directly from <a href="https://github.com/TUM-IDP-WS-20/simple-recommender/archive/refs/heads/master.zip">here</a> or via Git:
+    ```shell
+   git clone https://github.com/TUM-IDP-WS-20/simple-recommender.git
+    ```
+2. In the root directory, run `docker-compose up`
+
+That's all you need to do! Docker build and run 3 containers:
+- lrs_app : The main literature recommender system
+- nginx : An <a href="https://www.nginx.com/">Nginx</a> Webserver to welcome requests first and redirect them to the LRS app running behind the nginx
+- lrs_db : A <a href="https://www.postgresql.org/">Postgresql</a> database to store user ratings
+
+These all steps may take up to 5 minutes depending on your network connection. Once installation is done, you can reach the application on  http://localhost.
+
 # Development
 1. ### Install environment
-   1. Create an virtual environment
+   1. Create a virtual environment
    ```shell
    virtualenv --python=python3.8 .venv
    ```
@@ -27,7 +45,7 @@ A simple content based recommendation application. NLP model is trained in anoth
    Make sure that you have installed `postgresql`.
 
       - docker-compose run localDb bash
-      - export APP_SETTINGS="config.DevelopmentConfig"
+      - export APP_SETTINGS="app.config.DevelopmentConfig"
       - export DATABASE_URL="postgresql://localhost:5432/rec_database"
       - python3 manage.py db init
       - python3 manage.py db migrate
@@ -37,7 +55,7 @@ A simple content based recommendation application. NLP model is trained in anoth
    flask run
    ```
 
-4. ### Keep dependecies clear
+4. ### Keep dependencies clear
    All dependencies will be saved in `requirements.txt`. If a new library is needed for a notebook, please update dependecies on `requirements.txt` accordingly. You can follow the steps below to update it quickly:
 
    - Be sure to activate the environment as shown in **1.ii.**
@@ -65,7 +83,7 @@ A simple content based recommendation application. NLP model is trained in anoth
       git fetch heroku master
    ```
    5. Database Config
-        1. `heroku config:set APP_SETTINGS=config.ProductionConfig --remote heroku`
+        1. `heroku config:set APP_SETTINGS=app.config.ProductionConfig --remote heroku`
         2. `heroku addons:create heroku-postgresql:hobby-dev --app simple-recommender`
 2. ### Deployment
    1. Commit changes

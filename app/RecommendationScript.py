@@ -154,28 +154,20 @@ def make_suggestions(TAR_6, engine):
         for i in range(len(text)):
             text[i] = clean_text(text[i])
 
-        #
         for i in range(len(text)):
             text[i] = replace_text(text[i])
         for i in range(len(text)):
             text[i] = clean_text(text[i])
 
-        # Remove stopwordstopic_array
+        # Remove stopwords topic_array
         for i in range(len(text)):
             text[i] = remove_stopwords(text[i])
 
         # Clean with simple_preprocess
         mytext_2 = list(sent_to_words(text))
 
-        # Lemmatize is skipped !!!
-        # mytext_3_1 = []
-        # for sent in mytext_2:
-        #   mytext_3_1.append(" ".join(sent))
         # Lemmatize
         mytext_3 = lemmatization(mytext_2, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV'])
-
-        # print('Text after lemmatization ({} characters):'.format(len(mytext_3[0])))
-        # print(mytext_3[0][0:100]+" ...")
 
         # stemming is skipped !!!
         # mytext_3_1 = []
