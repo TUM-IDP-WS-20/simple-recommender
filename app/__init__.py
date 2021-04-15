@@ -8,7 +8,8 @@ from flask_bootstrap import Bootstrap
 import gc
 
 # App config.
-from . import RecommendationScript
+from app import RecommendationScript
+from app.lrs.util import get_file_name
 
 lrs_app = Flask(__name__)
 Bootstrap(lrs_app)
@@ -34,11 +35,11 @@ def index():
 
     # num of test cases
     florian_num = \
-    db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'florian'}).fetchone()[0]
+        db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'florian'}).fetchone()[0]
     faruk_num = \
-    db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'faruk'}).fetchone()[0]
+        db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'faruk'}).fetchone()[0]
     melike_num = \
-    db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'melike'}).fetchone()[0]
+        db.session.execute('SELECT COUNT(*) FROM requests WHERE user_name = :val', {'val': 'melike'}).fetchone()[0]
     db.session.flush()
     print(form.errors)
 
@@ -64,7 +65,7 @@ def index():
                               '' \
                               '<ul>'
                 for i in range(len(recs)):
-                    html_content += '<li><div style="width: 100%"><strong>File: </strong>' + RecommendationScript.get_file_name(
+                    html_content += '<li><div style="width: 100%"><strong>File: </strong>' + get_file_name(
                         str(recs.iloc[i]["file_path"])) + \
                                     '  <input type="number" name="rate_' + str(engine) + '_' + str(
                         i) + '" class="rating star-color" data-inline required />' + \
@@ -150,7 +151,7 @@ def add_rating(input_content, user_name, input_item_name, recs_, ratings_, engin
         db.session.add(engine)
 
         for sequence, rec in enumerate(recs['file_path'].values):
-            file_path = RecommendationScript.get_file_name(str(rec))
+            file_path = get_file_name(str(rec))
             rating = ratings_[index][sequence]
 
             item = Item(file_path=file_path, sequence=sequence, rating=rating)
